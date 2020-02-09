@@ -5,6 +5,7 @@ from rango.models import Page
 
 def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
+    page_likes_list = Page.objects.order_by('-views')[:5]
     
     context_dict = {} 
     context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!' 
