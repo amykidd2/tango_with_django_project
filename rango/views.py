@@ -61,7 +61,7 @@ def add_category(request):
 
         if form.is_valid():
             form.save(commit=True)
-            return redirect('/rango/')
+            return redirect(reverse('rango:index'))
 
         else:
             print(form.errors) 
@@ -76,7 +76,7 @@ def add_page(request, category_name_slug):
         category = None
 
     if category is None:
-        return redirect('/rango/')
+        return redirect(reverse('rango:index'))
 
     form = PageForm()
 
@@ -90,13 +90,13 @@ def add_page(request, category_name_slug):
                 page.views = 0
                 page.save()
 
-                return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))   
+                return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))
 
         else:
             print(form.errors)
 
     context_dict = {'form': form, 'category': category}
-    return render(request, 'rango/add_page.html', context=context_dict)    
+    return render(request, 'rango/add_page.html', context=context_dict)   
 
 def register(request):
     registered = False
@@ -133,7 +133,7 @@ def register(request):
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
-        password = requesr.POST.get('password')
+        password = request.POST.get('password')
         user = authenticate(username=username, password=password)
 
         if user:
