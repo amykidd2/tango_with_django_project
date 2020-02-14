@@ -26,12 +26,15 @@ def index(request):
 def  about(request):
     context_dict = {}
     context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
+
+    if request.session.test_cookie_worked(): 
+        print("TEST COOKIE WORKED!") 
+        request.session.delete_test_cookie()
     
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
     
-    response = render(request, 'rango/about.html', context=context_dict)
-    return response
+    return render(request, 'rango/about.html', context=context_dict)
 
 def show_category(request, category_name_slug):
     context_dict = {}
@@ -158,7 +161,7 @@ def get_server_side_cookie(request, cookie, default_val=None):
     val = request.session.get(cookie)
     if not val:
         val = default_val
-        return val
+    return val
 
 def visitor_cookie_handler(request):
     visits = int(get_server_side_cookie(request, 'visits', '1'))
